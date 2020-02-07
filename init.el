@@ -4,15 +4,25 @@
 	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 
-;; Windows settings
-;; (when (eq system-type 'windows-nt)
-;;   (w32-register-hot-key [M-tab]))
+;; Bootstrap `use-package'
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 ;; load my themes
 (use-package base16-theme
   :ensure t
   :config
   (load-theme 'base16-ashes t))
+
+;; markdown mode
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 
 ;; load magit
 (use-package magit
@@ -23,18 +33,42 @@
 (use-package ivy
   :ensure t
   :config
-  (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
-  (global-set-key (kbd "C-s") 'swiper-isearch)
+  (setq enable-recursive-minibuffers t))
+
+;; load swiper
+(use-package swiper
+  :ensure t
+  :config
+  (ivy-mode 1)
+  (global-set-key "\C-s" 'swiper)
   (global-set-key (kbd "C-c C-r") 'ivy-resume))
 
+;; set counsel
+(use-package counsel
+  :ensure t
+  :config
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-c C-f") 'counsel-find-file))
+
+
+;; setup geiser for scheme
+(use-package geiser
+  :ensure t
+  :config
+  (setq geiser-racket-binary "C:/Users/jgoth/Software/Racket/Racket.exe"))
+
+;; ~ is wierd on windows, so start in c:/Users/jgoth
+(setq default-directory "C:/Users/jgoth")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (ivy magit use-package base16-theme)))
+ '(package-selected-packages
+   (quote
+    (counsel swiper geiser slime ivy magit use-package base16-theme)))
  '(tooltip-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
