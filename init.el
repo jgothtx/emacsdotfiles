@@ -58,6 +58,23 @@
   :config
   (setq geiser-racket-binary "C:/Users/jgoth/Software/Racket/Racket.exe"))
 
+;; Load yasnippet
+(use-package yasnippet
+  :ensure t
+  :init)
+
+;; Javascript environment
+(use-package js2-mode
+  :ensure t
+  :init
+  :mode "\\.js\\'"
+  :config
+  (setq js-basic-indent 2)
+  (use-package js2-refactor :ensure t))
+
+;;(use-package xref-js2 :ensure t :init)
+
+
 ;; ~ is wierd on windows, so start in c:/Users/jgoth
 (setq default-directory "C:/Users/jgoth")
 
@@ -68,7 +85,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (counsel swiper geiser slime ivy magit use-package base16-theme)))
+    (yasnippet js2-mode counsel swiper geiser slime ivy magit use-package base16-theme)))
  '(tooltip-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
