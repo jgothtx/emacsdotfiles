@@ -40,6 +40,10 @@
 ;; Utilities
 ;;
 
+;; Evil
+(use-package evil)
+(evil-mode 1)
+
 ;; Helm
 (use-package helm)
 (global-set-key (kbd "M-x") #'helm-M-x)
